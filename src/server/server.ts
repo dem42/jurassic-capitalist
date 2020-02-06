@@ -9,10 +9,10 @@ const http = createServer(app)
 const io = socketio(http)
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'client', 'html', 'index.html'))
+    res.sendFile(path.join(__dirname, '..', '..', 'dist', 'html', 'index.html'))
 })
 
-app.get('/dist/bundle.js', (req, res) => {
+app.get('/bundle.js', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'dist', 'bundle.js'))
 })
 

@@ -1,5 +1,6 @@
-const path = require('path');
-const nodeExternals = require('webpack-node-externals');
+const path = require('path')
+const nodeExternals = require('webpack-node-externals')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -24,4 +25,9 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
-};
+  plugins: [
+    new CopyWebpackPlugin([
+        { from: 'src/client/static' }
+    ])
+  ]
+}
