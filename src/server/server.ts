@@ -2,6 +2,7 @@ import express from 'express'
 import { createServer } from 'http'
 import socketio from 'socket.io'
 import path from 'path'
+import process from 'process'
 
 const app = express()
 const http = createServer(app)
@@ -19,7 +20,7 @@ io.on('connection', socket => {
     console.log('a user connected')
 })
 
-const port = 3000
+const port = process.env.PORT || 3000
 http.listen(port, () => {
     console.log(`listening on *:${port}`)
 })
