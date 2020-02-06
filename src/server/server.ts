@@ -4,6 +4,9 @@ import socketio from 'socket.io'
 import path from 'path'
 import process from 'process'
 
+import Business from '../shared/business'
+import Player from '../shared/player'
+
 const app = express()
 const http = createServer(app)
 const io = socketio(http)
@@ -14,15 +17,18 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'dist', 'html', 'index.html'))
 })
 
+app.get('/css/style.css', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'dist', 'css', 'style.css'))
+})
+
 app.get('/bundle.js', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'dist', 'bundle.js'))
 })
 
 io.on('connection', socket => {
     console.log('a user connected')
-    socket.on('click', (msg) => {
-        console.log(`times clicked ${msg}`)
-        socket.emit('click-ack')
+    socket.on('update-business', (businessDto: Business) => {
+        console.log(`updated: ${JSON.stringify(businessDto)}`)        
     })
 })
 

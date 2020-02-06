@@ -1,0 +1,9 @@
+#businesses {
+    display: flex;
+    flex-direction: column;
+}
+
+button {    
+    margin: 5px 5px 5px 5px;
+    width: 200px;
+}
