@@ -1,0 +1,33 @@
+{
+  "name": "jurrasic_capitalist",
+  "version": "1.0.0",
+  "description": "capitalist style game",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "vue": "^2.6.11"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/node": "^13.7.0",
+    "@types/socket.io": "^2.1.4",
+    "@types/socket.io-client": "^1.4.32",
+    "nodemon": "^2.0.2",
+    "ts-loader": "^6.2.1",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build:live",
+    "build": "tsc -p .",
+    "build:live": "nodemon --watch 'src/**/*.ts' --exec ts-node src/server/server.ts"
+  },
+  "author": "martin.papanek",
+  "license": "ISC"
+}
