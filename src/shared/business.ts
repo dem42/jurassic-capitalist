@@ -1,11 +1,11 @@
 import Manager from './manager';
+import Upgrade from './upgrade';
 
 export default class Business {
     readonly name: string;
     readonly initialPrice: number;
     readonly initialOperateTimeSec: number;
-    earningsPerOwned: number;
-    isUpgraded: boolean;
+    earningsPerOwned: number;    
     numOwned: number;
 
     isBuyBusinessClicked: boolean;
@@ -13,21 +13,32 @@ export default class Business {
     operateTimeElapsed: number;
 
     manager: Manager;
+    upgrade: Upgrade;
 
-    constructor (name: string, initialPrice: number, initialBuildTimeSec: number, earningsPerOwned: number, manager: Manager) {
+    constructor (name: string, initialPrice: number, initialOperateTimeSec: number, earningsPerOwned: number, manager: Manager, upgrade: Upgrade) {
         this.name = name;
         this.initialPrice = initialPrice;
-        this.initialOperateTimeSec = initialBuildTimeSec;
-        this.earningsPerOwned = earningsPerOwned;
-        this.isUpgraded = false;
+        this.initialOperateTimeSec = initialOperateTimeSec;
+        this.earningsPerOwned = earningsPerOwned;        
+        this.manager = manager;
+        this.upgrade = upgrade;
+
         this.numOwned = 0;
-
         this.isBuyBusinessClicked = false;
-
         this.isOperating = false;
         this.operateTimeElapsed = 0;
+    }
 
-        this.manager = manager;
+    // socket.io serialization doesn't serialize methods so we use copy constructors
+    static from(b: Business) : Business {
+        const nm = Manager.from(b.manager);
+        const nu = Upgrade.from(b.upgrade);
+        const nb = new Business(b.name, b.initialPrice, b.initialOperateTimeSec, b.earningsPerOwned, nm, nu);
+        nb.numOwned = b.numOwned;
+        nb.isBuyBusinessClicked = b.isBuyBusinessClicked;
+        nb.isOperating = b.isOperating;
+        nb.operateTimeElapsed = b.operateTimeElapsed;   
+        return nb;     
     }
 
     startOperating = () => {
@@ -47,23 +58,17 @@ export default class Business {
         return false;
     }
 
-    upgrade = () => {
-        if (!this.isUpgraded) {
-            this.isUpgraded = true;
-            this.earningsPerOwned *= 2;            
-        }
-    }
-
     incrementOwned = () => {
         this.numOwned += 1;
     }
 
-    getRemainingBuildTime = () : number => {
+    getRemainingBuildTime() : number {
         return Math.trunc(this.initialOperateTimeSec - this.operateTimeElapsed);
     }
 
-    getEarnings = () : number => {        
-        return this.numOwned * this.earningsPerOwned;
+    getEarnings = () : number => {
+        const multiplier = this.upgrade.getUpgradeMultiplier();
+        return this.numOwned * this.earningsPerOwned * multiplier;
     }
 
     getBuyPrice = () : number => {

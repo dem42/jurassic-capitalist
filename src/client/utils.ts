@@ -6,3 +6,8 @@ export const reprTime = (timeToBuildSec: number) : string => {
     const h = Math.trunc(timeToBuildSec / 3600);
     return `${padToTwo(h)}:${padToTwo(m)}:${padToTwo(s)}`;
 }
+
+export const setDivActive = (divId: string, active: boolean) => {
+    const div = document.querySelector(divId) as HTMLDivElement;
+    div.className = active ? "" : "inactive";
+}

@@ -5,11 +5,25 @@
     </head>
     <body>
         <script src="bundle.js"></script>
-        <div id="dashboard">
+        <div id="connecting">Connecting...</div>
+        <div id="login" class="inactive">
+            <form>
+                Username:<br>
+                <input type="text" id="usernameInput" name="username" value="">
+                <input type="submit" value="Login">             
+            </form>
+        </div>
+        <div id="dashboard" class="inactive">
             <div id="purchases-content">
                 <a href="#managersDivModal" id="managersBtn">Managers</a>
                 <div id="managersDivModal" class="windowModal">
                     <div id="managersContent">
+                        <a href="#close" title="Close" class="close">X</a>                        
+                    </div>
+                </div>
+                <a href="#upgradesDivModal" id="upgradesBtn">Upgrades</a>
+                <div id="upgradesDivModal" class="windowModal">
+                    <div id="upgradesContent">
                         <a href="#close" title="Close" class="close">X</a>                        
                     </div>
                 </div>

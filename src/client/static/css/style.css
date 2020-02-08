@@ -2,6 +2,10 @@
     display: flex;    
 }
 
+#dashboard.inactive {
+    display: none;    
+}
+
 #purchases-content {
     display: flex;
     flex-direction: column;

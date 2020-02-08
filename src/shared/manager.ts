@@ -8,4 +8,11 @@ export default class Manager {
         this.isOwned = false;
         this.deactivated = false;
     }
+
+    static from(m: Manager) : Manager {
+        const nm = new Manager(m.price);
+        nm.deactivated = m.deactivated;
+        nm.isOwned = m.isOwned;
+        return nm;
+    }
 }
