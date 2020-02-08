@@ -1,40 +1,50 @@
+import Manager from './manager';
+
 export default class Business {
     readonly name: string;
     readonly initialPrice: number;
-    readonly initialBuildTimeSec: number;
+    readonly initialOperateTimeSec: number;
     earningsPerOwned: number;
     isUpgraded: boolean;
     numOwned: number;
 
-    isBuilding: boolean;
-    buildingTimeElapsed: number;
+    isBuyBusinessClicked: boolean;
+    isOperating: boolean;
+    operateTimeElapsed: number;
 
-    constructor (name: string, initialPrice: number, initialBuildTimeSec: number, earningsPerOwned: number) {
+    manager: Manager;
+
+    constructor (name: string, initialPrice: number, initialBuildTimeSec: number, earningsPerOwned: number, manager: Manager) {
         this.name = name;
         this.initialPrice = initialPrice;
-        this.initialBuildTimeSec = initialBuildTimeSec;
+        this.initialOperateTimeSec = initialBuildTimeSec;
         this.earningsPerOwned = earningsPerOwned;
         this.isUpgraded = false;
         this.numOwned = 0;
 
-        this.isBuilding = false;
-        this.buildingTimeElapsed = 0;
+        this.isBuyBusinessClicked = false;
+
+        this.isOperating = false;
+        this.operateTimeElapsed = 0;
+
+        this.manager = manager;
     }
 
-    startBuilding = () => {
-        this.isBuilding = true;
-        this.buildingTimeElapsed = 0;
+    startOperating = () => {
+        this.isOperating = true;
+        this.operateTimeElapsed = 0;
     }
 
-    updateBuildTime = (deltaTime: number) => {
-        console.log("updating build time");
-        this.buildingTimeElapsed += deltaTime;
-        const businessBuildTime = this.initialBuildTimeSec;
-        let timeRemaining = businessBuildTime - this.buildingTimeElapsed;
+    updateOperateTime = (deltaTime: number) : boolean => {        
+        this.operateTimeElapsed += deltaTime;
+        const businessOperateTime = this.initialOperateTimeSec;
+        let timeRemaining = businessOperateTime - this.operateTimeElapsed;
         if (timeRemaining <= 0) {
-            this.isBuilding = false;
-            this.buildingTimeElapsed = 0;
+            this.isOperating = false;
+            this.operateTimeElapsed = 0;
+            return true;
         }    
+        return false;
     }
 
     upgrade = () => {
@@ -49,10 +59,14 @@ export default class Business {
     }
 
     getRemainingBuildTime = () : number => {
-        return Math.trunc(this.initialBuildTimeSec - this.buildingTimeElapsed);
+        return Math.trunc(this.initialOperateTimeSec - this.operateTimeElapsed);
     }
 
     getEarnings = () : number => {        
         return this.numOwned * this.earningsPerOwned;
+    }
+
+    getBuyPrice = () : number => {
+        return this.initialPrice * (this.numOwned + 1);
     }
 }

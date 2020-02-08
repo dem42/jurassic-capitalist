@@ -2,79 +2,63 @@ import io from 'socket.io-client';
 
 import Business from '../shared/business';
 import Player from '../shared/player';
-import { BusinessTimerSystem } from './systems';
+import Manager from '../shared/manager';
+import { BusinessOperateSystem, BuyingSystem, ManagerSystem } from './systems';
 import { reprTime } from './utils';
+import { BusinessView, createBusinessHtml, renderBusiness, PlayerView, createPlayerHtml, renderPlayer, ManagerSelectionView, createManagersHtml, renderManagersList } from './views';
 
 const businesses = [
-    new Business("Dino Eggs", 1, 1, 1),
-    new Business("Raptors", 100, 5, 100),
-    new Business("Triceratops", 1000, 30, 1000),
-    new Business("T-Rex", 10_000, 120, 10_000),
+    new Business("Dino Eggs", 1, 1, 1, new Manager(100)),
+    new Business("Raptors", 100, 5, 100, new Manager(1000)),
+    new Business("Triceratops", 1000, 30, 1000, new Manager(10_000)),
+    new Business("T-Rex", 10_000, 120, 10_000, new Manager(100_000)),
 ];
+const player = new Player(1000000);
 
-const player = new Player(1);
+const buyingSystem = new BuyingSystem();
+const businessTimerSystem = new BusinessOperateSystem();
+const managersSystem = new ManagerSystem();
 
-const businessTimerSystem = new BusinessTimerSystem();
-
+let playerModelView: [Player, PlayerView];
 let businessModelView: [Business[], BusinessView[]];
+let managersView: ManagerSelectionView;
 
 console.log("Hello world");
 
-interface BusinessView {
-    block: Node,
-    btn: Node,
-    timerText: Node,
-}
-
 const socket = io();
-let clickCount = 0;
 
 const fps = 30;
 const frameTime = 1 / fps;
 
-const renderBusinessHtml = (business: Business) : BusinessView => {
-    const buttonBlock = document.createElement('div');
-    
-    const timerTxt = document.createElement('span');
-    timerTxt.textContent = reprTime(business.getRemainingBuildTime());
-
-    const btn = document.createElement('button');
-    btn.textContent = `name: ${business.name}. owned: ${business.numOwned}`;
-    btn.addEventListener("click", () => {
-        console.log("clicked");
-        business.incrementOwned();
-        business.startBuilding();            
-    });
-
-    buttonBlock.appendChild(btn);
-    buttonBlock.appendChild(timerTxt);
-
-    return {
-        block: buttonBlock,
-        btn: btn,
-        timerText: timerTxt
-    };
-}
 
 function initGame() {
-    const businessesHtml = businesses.map(renderBusinessHtml);    
+    const playerHtml = createPlayerHtml(player);
+    const playerHolder = document.querySelector("#player");
+    playerHolder?.append(playerHtml.moneyText);
+    playerModelView = [player, playerHtml];
+
+    const businessesHtml = businesses.map(bus => createBusinessHtml(player, bus));    
     const businessHolder = document.querySelector("#businesses");
     businessModelView = [businesses, businessesHtml];    
-    businessHolder?.append(...businessesHtml.map(bv => bv.block));
-}
-
-function renderBusiness(business: Business, businessView: BusinessView) {    
-    businessView.timerText.textContent = reprTime(business.getRemainingBuildTime());
+    businessHolder?.append(...businessesHtml.map(bv => bv.block)); 
+    
+    const managersHolder = document.querySelector("#managersContent");
+    managersView = createManagersHtml(player, businesses);
+    managersHolder?.appendChild(managersView.managersList);
 }
 
 function render() {    
+    renderPlayer(playerModelView[0], playerModelView[1]);
     for (let i=0; i<businessModelView[0].length; i++) {
         renderBusiness(businessModelView[0][i], businessModelView[1][i]);
     }
+    renderManagersList(businesses, managersView);
 }
 
 function gameLoop() {    
-    businessTimerSystem.process(frameTime, businesses);
+    businessTimerSystem.process(frameTime, player, businesses);
+    buyingSystem.process(frameTime, player, businesses);
+    managersSystem.process(frameTime, player, businesses);
     render();
 }
 

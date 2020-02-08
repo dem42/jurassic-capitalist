@@ -1,5 +1,5 @@
 export default class Player {
-    cash: number;
+    cash: number;    
 
     constructor (cash: number) {
         this.cash = cash;
