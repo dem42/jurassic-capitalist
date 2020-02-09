@@ -13,7 +13,7 @@ The game also features the ability to purchase
 
 The game can be accessed on Heroku: https://mighty-mesa-87200.herokuapp.com/. You can choose any username to log in.
 
-[Screenshot](/jurassic_capitalist.png)
+![Screenshot](jurassic_capitalist.png)
 
 # Architecture
 ## Tech stack

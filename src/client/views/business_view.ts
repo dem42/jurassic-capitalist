@@ -1,19 +1,22 @@
 import Business from '../../shared/business';
 import { reprTime, formatMoney } from '../utils';
 import GameState from '../game_state';
+import Player from '../../shared/player';
 
 export interface BusinessView {
     block: Node;
     operateTxt: HTMLDivElement;
-    btnBuy: Node;
+    btnBuy: HTMLButtonElement;
     timerBlock: HTMLDivElement;
 }
 
-export const renderBusiness = (business: Business, businessView: BusinessView) => {    
+export const renderBusiness = (player: Player, business: Business, businessView: BusinessView) => {    
     businessView.timerBlock.textContent = `Earnings: $${formatMoney(business.getEarnings())}`;
     businessView.timerBlock.setAttribute("style", `width: ${100 - business.getRemainingOperateTimeAsPercentage()}%`);
     businessView.operateTxt.innerHTML = `${business.getLabelText()}`;    
     businessView.btnBuy.textContent = `Buy: 1 for $${formatMoney(business.getBuyPrice())}`;
+    businessView.btnBuy.className = business.getBuyPrice() <= player.cash ? "" : "disabled";
+    businessView.btnBuy.disabled = business.getBuyPrice() > player.cash;
 }
 
 export const createBusinessHtml = (gameState: GameState, business: Business) : BusinessView => {    
@@ -29,7 +32,7 @@ export const createBusinessHtml = (gameState: GameState, business: Business) : B
     const btnOperate = document.createElement('div');
     btnOperate.className = 'btnOperate';    
     btnOperate.addEventListener('click', () => {
-        if (business.numOwned > 0) {
+        if (business.numOwned > 0 && !business.isOperating) {
             business.startOperating(gameState.timeS);
             gameState.isDirty = true;
         }

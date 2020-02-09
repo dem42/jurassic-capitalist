@@ -63,7 +63,7 @@ export default class GameClient {
     readonly render = () => {    
         renderPlayer(this.playerModelView[0], this.playerModelView[1]);
         for (let i=0; i<this.businessModelView[0].length; i++) {
-            renderBusiness(this.businessModelView[0][i], this.businessModelView[1][i]);
+            renderBusiness(this.gameState.player, this.businessModelView[0][i], this.businessModelView[1][i]);
         }
         renderManagersList(this.gameState.businesses, this.managersView);
         renderUpgradesList(this.gameState.businesses, this.upgradesView);
