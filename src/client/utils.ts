@@ -19,3 +19,8 @@ export const setDivActive = (divId: string, active: boolean) => {
 export const setHtmlElementActive = (withClass: HasClass, active: boolean) => {
     withClass.className = active ? "" : "inactive";
 }
+
+// solution from https://stackoverflow.com/questions/149055/how-to-format-numbers-as-currency-string
+export const formatMoney = (amount: number) : string => {
+    return amount.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+}

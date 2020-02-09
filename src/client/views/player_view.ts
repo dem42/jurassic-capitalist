@@ -1,5 +1,6 @@
 import Player from '../../shared/player';
 import GameState from '../game_state';
+import { formatMoney } from '../utils';
 
 export interface PlayerView {
     moneyText: Node;
@@ -14,5 +15,5 @@ export const createPlayerHtml = (gameState: GameState) : PlayerView => {
 }
 
 export const renderPlayer = (player: Player, playerView: PlayerView) => {
-    playerView.moneyText.textContent = `$${player.cash.toString()}`;
+    playerView.moneyText.textContent = `$${formatMoney(player.cash)}`;
 }

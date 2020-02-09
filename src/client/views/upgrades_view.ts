@@ -1,7 +1,7 @@
 import Business from '../../shared/business';
 import Player from '../../shared/player';
 import GameState from '../game_state';
-import { setDivActive, setHtmlElementActive } from '../utils';
+import { setDivActive, setHtmlElementActive, formatMoney } from '../utils';
 
 export interface UpgradesSelectionView {
     upgradesList: HTMLUListElement;
@@ -14,7 +14,7 @@ export const createUpgradesHtml = (gameState: GameState) : UpgradesSelectionView
     
     for (let business of gameState.businesses) {        
         const upgradeEntry = document.createElement('li');        
-        upgradeEntry.textContent = `${business.name} upgrade: $${business.upgrade.cost}`;
+        upgradeEntry.textContent = `${business.name} upgrade: $${formatMoney(business.upgrade.cost)}`;
 
         upgradeEntry.addEventListener("click", () => {
             console.log("upgraded");

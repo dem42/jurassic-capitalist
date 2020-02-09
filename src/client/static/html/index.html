@@ -14,25 +14,39 @@
                 <input type="submit" value="Login">             
             </form>
         </div>
+        <div id="offlineMsg" class="inactive">
+            <div id="earningsMsg" style="color: white; padding: 10px"></div>
+            <button>Continue</button>
+        </div>
         <div id="dashboard" class="inactive">
             <div id="purchases-content">
-                <div class="labelContainer"><div id="player" class="label"></div></div>
-                <div class="labelContainer"><a href="#managersDivModal" id="managersBtn" class="label">MANAGERS</a></div>
+                Park Owner:<br />
+                <div class="label"><div id="userLabel" class="labelContainer"></div></div>
+                <hr>
+                Available funds:<br />
+                <div class="label"><div id="player" class="labelContainer"></div></div>
+                <hr>
+                Park ops:<br />
+                <a href="#managersDivModal" id="managersBtn" class="label"><div class="labelContainer">MANAGERS</div></a>
                 <div id="managersDivModal" class="windowModal">
                     <div>
                         <a href="#close" title="Close" class="close">X</a>
+                        <div style="color: white; padding: 10px">Managers will automatically operate dinosaur enclosures to give you constant earnings.</div>
                         <div id="managersContent"></div>
                     </div>
                 </div>
-
-                <div class="labelContainer"><a href="#upgradesDivModal" id="upgradesBtn" class="label">UPGRADES</a></div>
+                <hr>
+                Island R&D:<br />
+                <a href="#upgradesDivModal" id="upgradesBtn" class="label"><div class="labelContainer">UPGRADES</div></a>
                 <div id="upgradesDivModal" class="windowModal">
                     <div>
                         <a href="#close" title="Close" class="close">X</a>
+                        <div style="color: white; padding: 10px">Buy upgrades to triple the earnings from your dinosaurs.</div>
                         <div id="upgradesContent"></div>
                     </div>
                 </div>
             </div>
+
             <div id="business-content">                
                 <div id="businesses"></div>        
             </div>        

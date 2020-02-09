@@ -1,6 +1,6 @@
 import Business from '../../shared/business';
 import GameState from '../game_state';
-import { setHtmlElementActive } from '../utils';
+import { setHtmlElementActive, formatMoney } from '../utils';
 
 export interface ManagerSelectionView {
     managersList: HTMLUListElement;
@@ -13,7 +13,7 @@ export const createManagersHtml = (gameState: GameState) : ManagerSelectionView 
     
     for (let business of gameState.businesses) {        
         const managerEntry = document.createElement('li');        
-        managerEntry.textContent = `${business.name} manager: $${business.manager.price}`;
+        managerEntry.textContent = `${business.name} manager: $${formatMoney(business.manager.price)}`;
 
         managerEntry.addEventListener("click", () => {
             console.log("bought manager");

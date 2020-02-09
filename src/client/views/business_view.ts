@@ -1,5 +1,5 @@
 import Business from '../../shared/business';
-import { reprTime } from '../utils';
+import { reprTime, formatMoney } from '../utils';
 import GameState from '../game_state';
 
 export interface BusinessView {
@@ -10,10 +10,10 @@ export interface BusinessView {
 }
 
 export const renderBusiness = (business: Business, businessView: BusinessView) => {    
-    businessView.timerBlock.textContent = `Earnings: $${business.getEarnings()}`;
+    businessView.timerBlock.textContent = `Earnings: $${formatMoney(business.getEarnings())}`;
     businessView.timerBlock.setAttribute("style", `width: ${100 - business.getRemainingOperateTimeAsPercentage()}%`);
     businessView.operateTxt.innerHTML = `${business.getLabelText()}`;    
-    businessView.btnBuy.textContent = `Buy: 1 for $${business.getBuyPrice()}`;
+    businessView.btnBuy.textContent = `Buy: 1 for $${formatMoney(business.getBuyPrice())}`;
 }
 
 export const createBusinessHtml = (gameState: GameState, business: Business) : BusinessView => {    
@@ -23,7 +23,7 @@ export const createBusinessHtml = (gameState: GameState, business: Business) : B
        
     const timerBlock = document.createElement('div'); 
     timerBlock.className = 'timer';
-    timerBlock.textContent = `Earnings: $${business.getEarnings()}`;
+    timerBlock.textContent = `Earnings: $${formatMoney(business.getEarnings())}`;
     timerBlock.setAttribute('style', `width: ${100 - business.getRemainingOperateTimeAsPercentage()}%`);
 
     const btnOperate = document.createElement('div');
@@ -40,7 +40,7 @@ export const createBusinessHtml = (gameState: GameState, business: Business) : B
     btnOperate.appendChild(operateTxt);
 
     const btnBuy = document.createElement('button');
-    btnBuy.textContent = `Buy: 1 for $${business.getBuyPrice()}`;
+    btnBuy.textContent = `Buy: 1 for $${formatMoney(business.getBuyPrice())}`;
     btnBuy.addEventListener('click', () => {
         if (gameState.player.cash >= business.getBuyPrice()) {
             business.isBuyBusinessClicked = true;

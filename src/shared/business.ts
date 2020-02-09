@@ -48,7 +48,7 @@ export default class Business {
     }
 
     readonly getLabelText = () : string => {
-        return `Species:<br />${this.name}<br /><br />Status:<br />contained<br /><br />Number: ${this.numOwned}`;
+        return `Species:<br />${this.name}<br /><br />Status:<br />contained<br /><br />Owned: ${this.numOwned}`;
     }
 
     readonly startOperating = (timeMs: number) => {
