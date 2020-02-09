@@ -1,10 +1,11 @@
 <html>
     <head>
-        <title>Jurassic World</title>   
+        <title>Jurassic Capitalist</title>   
         <link rel="stylesheet" type="text/css" href="/css/style.css">
     </head>
     <body>
         <script src="bundle.js"></script>
+        <h1>JURASSIC CAPITALIST</h1>
         <div id="connecting">Connecting...</div>
         <div id="login" class="inactive">
             <form>
@@ -15,7 +16,8 @@
         </div>
         <div id="dashboard" class="inactive">
             <div id="purchases-content">
-                <a href="#managersDivModal" id="managersBtn">Managers</a>
+                <div class="labelContainer"><div id="player" class="label"></div></div>
+                <div class="labelContainer"><a href="#managersDivModal" id="managersBtn" class="label">MANAGERS</a></div>
                 <div id="managersDivModal" class="windowModal">
                     <div>
                         <a href="#close" title="Close" class="close">X</a>
@@ -23,7 +25,7 @@
                     </div>
                 </div>
 
-                <a href="#upgradesDivModal" id="upgradesBtn">Upgrades</a>
+                <div class="labelContainer"><a href="#upgradesDivModal" id="upgradesBtn" class="label">UPGRADES</a></div>
                 <div id="upgradesDivModal" class="windowModal">
                     <div>
                         <a href="#close" title="Close" class="close">X</a>
@@ -31,10 +33,9 @@
                     </div>
                 </div>
             </div>
-            <div id="business-content">
-                <div id="player"></div>
+            <div id="business-content">                
                 <div id="businesses"></div>        
-            </div>
+            </div>        
         </div>
     </body>    
 </html>

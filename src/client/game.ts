@@ -60,7 +60,7 @@ export default class GameClient {
         upgradesHolder?.appendChild(this.upgradesView.upgradesList);
     }
     
-    render = () => {    
+    readonly render = () => {    
         renderPlayer(this.playerModelView[0], this.playerModelView[1]);
         for (let i=0; i<this.businessModelView[0].length; i++) {
             renderBusiness(this.businessModelView[0][i], this.businessModelView[1][i]);
@@ -69,7 +69,7 @@ export default class GameClient {
         renderUpgradesList(this.gameState.businesses, this.upgradesView);
     }
 
-    gameLoop = () => {    
+    readonly gameLoop = () => {        
         this.businessTimerSystem.process(this.frameTime, this.gameState);
         this.buyingSystem.process(this.frameTime, this.gameState);
         this.managersSystem.process(this.frameTime, this.gameState);

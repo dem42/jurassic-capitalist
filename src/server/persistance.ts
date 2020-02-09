@@ -22,11 +22,11 @@ export default class Persistance {
         }
     }
 
-    existsUser() : boolean {
+    readonly existsUser = () : boolean => {
         return fs.existsSync(this.filename);
     }
 
-    save(player: Player, businesses: Business[]) {
+    readonly save = (player: Player, businesses: Business[]) => {
         const dto = {
             player: player,
             businesses: businesses
@@ -38,7 +38,7 @@ export default class Persistance {
         });
     }
 
-    getPlayerAndBusinesses() : [Player, Business[]] {
+    readonly getPlayerAndBusinesses = () : [Player, Business[]]  => {
         const dataJson = JSON.parse(fs.readFileSync(this.filename, 'utf8'));
         const dto = dataJson as DTO;
         return [Player.from(dto.player), dto.businesses.map(Business.from)];

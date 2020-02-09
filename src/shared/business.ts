@@ -3,6 +3,7 @@ import Upgrade from './upgrade';
 
 export default class Business {
     readonly name: string;
+    readonly divId: string;
     readonly initialPrice: number;
     readonly initialOperateTimeSec: number;
     earningsPerOwned: number;    
@@ -17,7 +18,8 @@ export default class Business {
     manager: Manager;
     upgrade: Upgrade;
 
-    constructor (name: string, initialPrice: number, initialOperateTimeSec: number, earningsPerOwned: number, manager: Manager, upgrade: Upgrade) {
+    constructor (name: string, divName: string, initialPrice: number, initialOperateTimeSec: number, earningsPerOwned: number, manager: Manager, upgrade: Upgrade) {
+        this.divId = divName;
         this.name = name;
         this.initialPrice = initialPrice;
         this.initialOperateTimeSec = initialOperateTimeSec;
@@ -36,7 +38,7 @@ export default class Business {
     static from(b: Business) : Business {
         const nm = Manager.from(b.manager);
         const nu = Upgrade.from(b.upgrade);
-        const nb = new Business(b.name, b.initialPrice, b.initialOperateTimeSec, b.earningsPerOwned, nm, nu);
+        const nb = new Business(b.name, b.divId, b.initialPrice, b.initialOperateTimeSec, b.earningsPerOwned, nm, nu);
         nb.numOwned = b.numOwned;
         nb.isBuyBusinessClicked = b.isBuyBusinessClicked;
         nb.isOperating = b.isOperating;
@@ -45,14 +47,18 @@ export default class Business {
         return nb;     
     }
 
-    startOperating(timeMs: number) {
+    readonly getLabelText = () : string => {
+        return `Species:<br />${this.name}<br /><br />Status:<br />contained<br /><br />Number: ${this.numOwned}`;
+    }
+
+    readonly startOperating = (timeMs: number) => {
         this.isOperating = true;
         this.operateTimeElapsed = 0;
         this.operateStartTimeS = timeMs;
     }
 
-    updateOperateTime(deltaTime: number) : boolean {        
-        this.operateTimeElapsed += deltaTime;
+    readonly updateOperateTime = (deltaTime: number) : boolean => {        
+        this.operateTimeElapsed += deltaTime;        
         const businessOperateTime = this.initialOperateTimeSec;
         let timeRemaining = businessOperateTime - this.operateTimeElapsed;
         if (timeRemaining <= 0) {
@@ -64,24 +70,28 @@ export default class Business {
         return false;
     }
 
-    incrementOwned() {
+    readonly incrementOwned = () => {
         this.numOwned += 1;
     }
 
-    getOperateTime() : number {
+    readonly getOperateTime = () : number => {
         return this.initialOperateTimeSec;
     }
 
-    getRemainingOperateTime() : number {
+    readonly getRemainingOperateTime = () : number => {
         return Math.trunc(this.getOperateTime() - this.operateTimeElapsed);
     }
 
-    getEarnings() : number {
+    readonly getRemainingOperateTimeAsPercentage = () : number => {
+        return Math.trunc(100 * (this.getOperateTime() - this.operateTimeElapsed) / this.getOperateTime());
+    }
+
+    readonly getEarnings = () : number => {
         const multiplier = this.upgrade.getUpgradeMultiplier();
         return this.numOwned * this.earningsPerOwned * multiplier;
     }
 
-    getBuyPrice() : number {
+    readonly getBuyPrice = () : number => {
         return this.initialPrice * (this.numOwned + 1);
     }
 }

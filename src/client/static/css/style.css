@@ -1,3 +1,20 @@
+body {
+    background-color: #5a6daf;
+    color: #B4B7DA;
+    font-family: monospace;
+}
+
+h1 {    
+    font-size: 35px; 
+    font-weight: bold; 
+    letter-spacing: -1px; 
+    line-height: 1; 
+    text-align: center; 
+    border-style: solid;
+    color: #B4B7DA; 
+    width: 945px;   
+}
+
 #dashboard {
     display: flex;    
 }
@@ -9,28 +26,128 @@
 #purchases-content {
     display: flex;
     flex-direction: column;
-    width: 50px;
+    width: 200px;
+    font-size: 20;
+    border-style: solid;
+    color: #000;
+    border-color: #B4B7DA;    
+    padding: 10px;
+}
+
+#purchases-content .label {
+    background-color: #85bbea;
+}
+
+#purchases-content .labelContainer {
+    padding: 10px;
 }
 
 #businesses {
     display: flex;
     flex-direction: column;
+    background-image: url('../res/isla_nubla_small.png');
+    height: 650px;
+    width: 720px;
+    border-style: solid;
+    border-color: #B4B7DA;
+    border-width: 2px;
+    position: relative;
+}
+
+.businessElem {
+    display: flex;
+    flex-direction: column;
+    border-style: dotted;
+    border-width: medium;
+    border-color: #000;
+    color: white;
+    background-color: #8080808c;  
+}
+
+.businessElem .timerText {
+    border-style: solid;
+    border-width: 2px;
+    padding: 5px 0px 5px 0px;
+}
+
+.businessElem .timer {
+    background-color: #eb0b0b;
+    padding: 5px 0px 5px 0px;
+    white-space: nowrap;
+}
+
+.businessElem .businessLabel {
+    position: relative;
+    left: 123px;    
+}
+
+/* .businessElem:hover {
+    cursor: pointer;
+} */
+
+.businessElem .btnOperate {
+    width: 120px;
+    height: 110px;
+    background-size: cover;
+    cursor: pointer;
+}
+
+#raptor {
+    position: absolute;
+    left: 130px;
+    top: 140px;    
+}
+
+#raptor .btnOperate {
+    background-image: url('../res/raptor.png');
+}
+
+#diplo {
+    position: absolute;
+    left: 100px;
+    top: 420px; 
+}
+
+#diplo .btnOperate {
+    background-image: url('../res/diplodocus.png');
+}
+
+#tricer {
+    position: absolute;
+    left: 380px;
+    top: 50px;    
+}
+
+#tricer .btnOperate {
+    background-image: url('../res/triceratops.png');
+}
+
+#trex {
+    position: absolute;
+    left: 400px;
+    top: 350px;
+    
+}
+
+#trex .btnOperate {
+    background-image: url('../res/trex.png');
 }
 
 button {    
     margin: 5px 5px 5px 5px;
     width: 200px;
-}
-
-#player {
-    width: 100px;
-    margin: 5px 20px 20px 20px;
-    background-color: yellow;
+    background-color: #85bbea;
     color: black;
+    text-align: left;
+    color: white;
 }
 
 .inactive {
     display: none;
+}
+
+a, u {
+    text-decoration: none;
 }
 
 /* 
