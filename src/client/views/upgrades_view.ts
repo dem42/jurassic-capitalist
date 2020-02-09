@@ -1,6 +1,7 @@
 import Business from '../../shared/business';
 import Player from '../../shared/player';
 import GameState from '../game_state';
+import { setDivActive, setHtmlElementActive } from '../utils';
 
 export interface UpgradesSelectionView {
     upgradesList: HTMLUListElement;
@@ -24,6 +25,9 @@ export const createUpgradesHtml = (gameState: GameState) : UpgradesSelectionView
             }
         });
         upgradesList.appendChild(upgradeEntry);
+        if (business.upgrade.isUpgraded && business.upgrade.deactivated) {
+            setHtmlElementActive(upgradeEntry, false);
+        }
         upgradeEntries.push(upgradeEntry as HTMLLIElement);
     }
 

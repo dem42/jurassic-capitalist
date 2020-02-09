@@ -18,7 +18,7 @@ export default class Upgrade {
         return nu;
     }
 
-    getUpgradeMultiplier = () : number => {
+    getUpgradeMultiplier() : number {
         return this.isUpgraded ? this.upgradeMultiplier : 1;
     }
 }

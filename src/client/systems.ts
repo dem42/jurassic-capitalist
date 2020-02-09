@@ -33,7 +33,7 @@ export class ManagerSystem {
     process(deltaTime: number, gameState: GameState) {
         for (let business of gameState.businesses) {
             if (business.manager.isOwned && !business.isOperating && business.numOwned > 0) {
-                business.startOperating();
+                business.startOperating(gameState.timeS);
                 gameState.isDirty = true;
             }
         }
@@ -41,8 +41,8 @@ export class ManagerSystem {
 }
 
 export class SyncSystem {    
-
-    process(deltaTime: number, gameState: GameState, socket: SocketIOClient.Socket) {        
+    process(deltaTime: number, gameState: GameState, socket: SocketIOClient.Socket) {
+        gameState.timeS += deltaTime;  
         if (gameState.isDirty) {
             socket.emit("sync", gameState.player, gameState.businesses);
             gameState.isDirty = false;

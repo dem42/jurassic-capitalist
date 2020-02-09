@@ -10,6 +10,8 @@ export default class Business {
 
     isBuyBusinessClicked: boolean;
     isOperating: boolean;
+    // when operate was started using serverTime
+    operateStartTimeS: number;
     operateTimeElapsed: number;
 
     manager: Manager;
@@ -27,6 +29,7 @@ export default class Business {
         this.isBuyBusinessClicked = false;
         this.isOperating = false;
         this.operateTimeElapsed = 0;
+        this.operateStartTimeS = -1;
     }
 
     // socket.io serialization doesn't serialize methods so we use copy constructors
@@ -38,40 +41,47 @@ export default class Business {
         nb.isBuyBusinessClicked = b.isBuyBusinessClicked;
         nb.isOperating = b.isOperating;
         nb.operateTimeElapsed = b.operateTimeElapsed;   
+        nb.operateStartTimeS = b.operateStartTimeS;
         return nb;     
     }
 
-    startOperating = () => {
+    startOperating(timeMs: number) {
         this.isOperating = true;
         this.operateTimeElapsed = 0;
+        this.operateStartTimeS = timeMs;
     }
 
-    updateOperateTime = (deltaTime: number) : boolean => {        
+    updateOperateTime(deltaTime: number) : boolean {        
         this.operateTimeElapsed += deltaTime;
         const businessOperateTime = this.initialOperateTimeSec;
         let timeRemaining = businessOperateTime - this.operateTimeElapsed;
         if (timeRemaining <= 0) {
             this.isOperating = false;
             this.operateTimeElapsed = 0;
+            this.operateStartTimeS = -1;
             return true;
         }    
         return false;
     }
 
-    incrementOwned = () => {
+    incrementOwned() {
         this.numOwned += 1;
     }
 
-    getRemainingBuildTime() : number {
-        return Math.trunc(this.initialOperateTimeSec - this.operateTimeElapsed);
+    getOperateTime() : number {
+        return this.initialOperateTimeSec;
     }
 
-    getEarnings = () : number => {
+    getRemainingOperateTime() : number {
+        return Math.trunc(this.getOperateTime() - this.operateTimeElapsed);
+    }
+
+    getEarnings() : number {
         const multiplier = this.upgrade.getUpgradeMultiplier();
         return this.numOwned * this.earningsPerOwned * multiplier;
     }
 
-    getBuyPrice = () : number => {
+    getBuyPrice() : number {
         return this.initialPrice * (this.numOwned + 1);
     }
 }

@@ -10,7 +10,7 @@ export interface BusinessView {
 }
 
 export const renderBusiness = (business: Business, businessView: BusinessView) => {
-    businessView.timerText.textContent = reprTime(business.getRemainingBuildTime());
+    businessView.timerText.textContent = reprTime(business.getRemainingOperateTime());
     businessView.btnOperate.textContent = `name: ${business.name}. owned: ${business.numOwned}`;
     businessView.btnBuy.textContent = `buy ${business.getBuyPrice()}`;
 }
@@ -19,13 +19,14 @@ export const createBusinessHtml = (gameState: GameState, business: Business) : B
     const buttonBlock = document.createElement('div');
     
     const timerTxt = document.createElement('span');
-    timerTxt.textContent = reprTime(business.getRemainingBuildTime());
+    timerTxt.textContent = reprTime(business.getRemainingOperateTime());
 
     const btnOperate = document.createElement('button');
     btnOperate.textContent = `name: ${business.name}. owned: ${business.numOwned}`;
     btnOperate.addEventListener("click", () => {
         if (business.numOwned > 0) {
-            business.startOperating();
+            business.startOperating(gameState.timeS);
+            gameState.isDirty = true;
         }
     });
 

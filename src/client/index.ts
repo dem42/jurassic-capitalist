@@ -23,11 +23,16 @@ document.addEventListener("DOMContentLoaded", () => {
         };        
     });
 
-    socket.on("loggedIn", (player: Player, businesses: Business[]) => {
+    socket.on("loggedIn", (player: Player, businesses: Business[], serverTimeS: number, offlineEarnings: number) => {
         setDivActive("#login", false);
 
         setDivActive("#dashboard", true);
-        gameClient = new GameClient(player, businesses, socket);
+
+        if (offlineEarnings > 0) {
+            console.log(`Your businesses earned ${offlineEarnings} while you were offline.`);
+        }
+
+        gameClient = new GameClient(player, businesses, socket, serverTimeS);
         gameLoop = setInterval(gameClient.gameLoop, gameClient.frameTime * 1000);
     });
 

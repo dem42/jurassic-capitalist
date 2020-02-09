@@ -25,26 +25,38 @@ export default class GameClient {
     readonly fps = 30;
     readonly frameTime = 1 / 30;
     
-    constructor(playerIn: Player, businessesIn: Business[], socket: SocketIOClient.Socket) {        
-        this.gameState = new GameState(Player.from(playerIn), businessesIn.map(Business.from));        
+    constructor(playerIn: Player, businessesIn: Business[], socket: SocketIOClient.Socket, serverTimeS: number) {        
+        this.gameState = new GameState(Player.from(playerIn), businessesIn.map(Business.from), serverTimeS);        
         this.socket = socket;
 
         const playerHtml = createPlayerHtml(this.gameState);
         const playerHolder = document.querySelector("#player");
-        playerHolder?.append(playerHtml.moneyText);
         this.playerModelView = [this.gameState.player, playerHtml];
+        if (playerHolder != null) {
+            playerHolder.innerHTML = "";
+        }
+        playerHolder?.append(playerHtml.moneyText);
 
         const businessesHtml = this.gameState.businesses.map(bus => createBusinessHtml(this.gameState, bus));    
         const businessHolder = document.querySelector("#businesses");
         this.businessModelView = [this.gameState.businesses, businessesHtml];    
+        if (businessHolder != null) {
+            businessHolder.innerHTML = "";
+        }
         businessHolder?.append(...businessesHtml.map(bv => bv.block)); 
         
         const managersHolder = document.querySelector("#managersContent");
         this.managersView = createManagersHtml(this.gameState);
+        if (managersHolder != null) {
+            managersHolder.innerHTML = "";
+        }
         managersHolder?.appendChild(this.managersView.managersList);
 
         const upgradesHolder = document.querySelector("#upgradesContent");
         this.upgradesView = createUpgradesHtml(this.gameState);
+        if (upgradesHolder != null) {
+            upgradesHolder.innerHTML = "";
+        }
         upgradesHolder?.appendChild(this.upgradesView.upgradesList);
     }
     
@@ -64,5 +76,4 @@ export default class GameClient {
         this.syncSystem.process(this.frameTime, this.gameState, this.socket);
         this.render();
     }
-
 }

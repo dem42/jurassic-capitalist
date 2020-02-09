@@ -1,5 +1,6 @@
 import Business from '../../shared/business';
 import GameState from '../game_state';
+import { setHtmlElementActive } from '../utils';
 
 export interface ManagerSelectionView {
     managersList: HTMLUListElement;
@@ -23,6 +24,9 @@ export const createManagersHtml = (gameState: GameState) : ManagerSelectionView 
             }
         });
         managersList.appendChild(managerEntry);
+        if (business.manager.isOwned && business.manager.deactivated) {
+            setHtmlElementActive(managerEntry, false);
+        }
         managerEntries.push(managerEntry as HTMLLIElement);
     }
 

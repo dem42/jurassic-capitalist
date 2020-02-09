@@ -8,6 +8,7 @@ import Persistance from './persistance';
 import Business from '../shared/business';
 import Player from '../shared/player';
 import defaultData from './default_game_data';
+import offlineEarnings from './offline_earnings';
 
 const app = express();
 const http = createServer(app);
@@ -49,7 +50,13 @@ io.on('connection', socket => {
             persistance.save(player, businesses);
         });
 
-        socket.emit("loggedIn", player, businesses);
+        const serverTime = new Date().getTime() / 1000.0;
+        const offlineMoney = offlineEarnings(serverTime, businesses);
+        if (offlineMoney > 0) {
+            player.cash += offlineMoney;
+            persistance.save(player, businesses);
+        }
+        socket.emit("loggedIn", player, businesses, serverTime, offlineMoney);
     });
 });
 

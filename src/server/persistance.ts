@@ -22,11 +22,11 @@ export default class Persistance {
         }
     }
 
-    existsUser = () : boolean => {
+    existsUser() : boolean {
         return fs.existsSync(this.filename);
     }
 
-    save = (player: Player, businesses: Business[]) => {
+    save(player: Player, businesses: Business[]) {
         const dto = {
             player: player,
             businesses: businesses
@@ -34,14 +34,13 @@ export default class Persistance {
         let data = JSON.stringify(dto, null, 2);
 
         fs.writeFile(this.filename, data, (err) => {
-            if (err) throw err;
-            console.log('Data written to file');
+            if (err) throw err;            
         });
     }
 
-    getPlayerAndBusinesses = () : [Player, Business[]] => {
+    getPlayerAndBusinesses() : [Player, Business[]] {
         const dataJson = JSON.parse(fs.readFileSync(this.filename, 'utf8'));
         const dto = dataJson as DTO;
-        return [dto.player, dto.businesses];
+        return [Player.from(dto.player), dto.businesses.map(Business.from)];
     }
 }
