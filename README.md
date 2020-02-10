@@ -5,7 +5,7 @@ The game is implemented as full-stack application with a corresponding backend t
 
 In the game players first pick a username and then enter into the game scene, where they can buy dinosaurs or use the dinosaurs to make money by clicking on the dinosaur icon.
 
-Initially, the player starts without any dinosaurs and has to buy some to start earning profits.
+Initially, the player starts without any dinosaurs and has to buy some to start earning profits. Profits continue being earned even when offline.
 
 The game also features the ability to purchase 
 - Managers which automatically click the dinosaur icons. 
@@ -40,5 +40,7 @@ As one final point, the server and client also synchronize their time. This is u
 
 # Discussion
 I focused on a full-stack implementation of a Capitalist-type game. While it would have been easier to just persist all state in localStorage on the client, this would mean the players cannot change between browsers or devices so I opted to implement a backend to enable persistance.
+
+Due to the backend design, the game can now be accessed through the browser multiple times at the same time. I omitted disallowing this for the sake of simplicity, but it could be solved by keeping track of open sessions on the server.
 
 I tried to make the UI as pretty as I could with my limited programmer art, but a lot more could be done in that respect. Due to time constraints, I also didn't implement many of the features that are available in Adventure Capitalist such as tutorials, buying multiple instances of a business at the same time.
