@@ -21,7 +21,7 @@ The game is implemented in Typescript and uses Node.js, Express.js, Socket.io an
 
 Node.js is used for the backend server and it serves static files using an Express.js http server. The backend is only used for persistance in order to allow the player to be able to play the game on different devices. The communication between the client and the server goes through websockets that are managed by Socket.io. 
 
-I chose websockets for the communication protocol because the client sends "sync" updates for the backend to persist and these updates can be sent fairly frequently. Websockets allow the game to handle this traffic without the constant overhead of setting up and tearing down TCP connections.
+I chose websockets for the communication protocol because the client sends "sync" updates for the backend to persist and these updates can be sent fairly frequently. Websockets allow the game to handle this traffic without the constant overhead of setting up and tearing down HTTP connections.
 
 Webpack is used to be able to break the codebase down into small modules and still have the benefit of a single .js bundle where the imports are automatically located and compiled.
 
