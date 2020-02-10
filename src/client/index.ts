@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (offlineEarnings > 0) {
             const msg = `Your businesses earned $${formatMoney(offlineEarnings)} while you were offline.`;
-            console.log();            
+            console.log(msg);            
             setDivActive("#offlineMsg", true);
             const msgBlock = document.querySelector("#earningsMsg");
             if (msgBlock != null) {
